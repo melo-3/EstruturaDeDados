@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DynamicList
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<char> lista = new List<char>(); // Create a dynamic list to store characters
+            int opcao; // Variable to store the user option
+            char valor; // Variable to store the value entered by the user
+
+            do
+            {
+                // Display menu options
+                Console.WriteLine("Dynamic Linear List");
+                Console.WriteLine("0 - exit");
+                Console.WriteLine("1 - insert");
+                Console.WriteLine("2 - remove specific value");
+                Console.WriteLine("3 - remove by position");
+                Console.WriteLine("4 - check if a value exists");
+                Console.WriteLine("5 - display list");
+                Console.WriteLine("6 - display item at a specific position");
+                Console.WriteLine("Choose an option:");
+                opcao = int.Parse(Console.ReadLine()); // Read the user's choice
+
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("Exiting...");
+                        break;
+
+                    case 1:
+                        Console.WriteLine("Enter the value to insert:");
+                        valor = Console.ReadKey().KeyChar; // Read the character entered by the user
+                        Console.WriteLine();
+                        lista.Add(valor); // Add the value to the list
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Enter the value to remove:");
+                        valor = Console.ReadKey().KeyChar; // Read the value to remove
+                        Console.WriteLine();
+                        if (lista.Remove(valor)) // Try to remove the value
+                            Console.WriteLine("Removed successfully.");
+                        else
+                            Console.WriteLine("Value not found.");
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Enter the position to remove:");
+                        int posicao = int.Parse(Console.ReadLine()); // Read the position from the user
+                        if (posicao >= 0 && posicao < lista.Count) // Check if the position is valid
+                        {
+                            lista.RemoveAt(posicao); // Remove the item at the specified position
+                            Console.WriteLine("Element removed successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid position.");
+                        }
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Enter the value to check:");
+                        valor = Console.ReadKey().KeyChar; // Read the value to check
+                        Console.WriteLine();
+                        // Use ternary operator to check if the list contains the value
+                        Console.WriteLine(lista.Contains(valor) ? "Value found in the list." : "Value not found.");
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Size of the list: " + lista.Count); // Display the size of the list
+                        break;
+
+                    case 6:
+                        Console.WriteLine("Enter the position to view:");
+                        posicao = int.Parse(Console.ReadLine()); // Read the position to display
+                        if (posicao >= 0 && posicao < lista.Count) // Check if the position is valid
+                        {
+                            Console.WriteLine("Element at position " + posicao + ": " + lista[posicao]); // Display the element at the specified position
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid position.");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option.");
+                        break;
+                }
+            }
+            while (opcao != 0); // Continue until the user chooses to exit
+        }
+    }
+}
