@@ -1,0 +1,87 @@
+//queue (using Queue class)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fila02
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            // Create a queue of characters
+            Queue<char> queue = new Queue<char>();
+
+            int opcao;
+            char valor;
+
+            do
+            {
+                Console.WriteLine("Queue (fila)");
+                Console.WriteLine("choose an option: ");
+                Console.WriteLine("0 - exit");
+                Console.WriteLine("1 - enqueue");
+                Console.WriteLine("2 - front (first element)");
+                Console.WriteLine("3 - dequeue");
+                Console.WriteLine("4 - queue size");
+                Console.WriteLine("5 - display queue");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("exiting");
+                        break;
+                    case 1:
+                        // Ask the user to enter a value to enqueue
+                        Console.WriteLine("enter value to enqueue: ");
+                        valor = Console.ReadKey().KeyChar; // Read a character from the user
+                        queue.Enqueue(valor); // Add the character to the queue
+                        break;
+                    case 2:
+                        // Check if the queue has elements before showing the front element
+                        if(queue.Count > 0)
+                        {
+                            Console.WriteLine("front of the queue: " + queue.Peek()); // Peek at the first element without removing it
+                        }
+                        else
+                        {
+                            Console.WriteLine("queue is empty");
+                        }
+                        break;
+                    case 3:
+                        // Check if the queue has elements before dequeuing
+                        if (queue.Count > 0)
+                        {
+                            valor = queue.Dequeue(); // Remove the first element from the queue
+                            Console.WriteLine("dequeued element: " + valor);
+                        }
+                        else
+                        {
+                            Console.WriteLine("queue is empty");
+                        }
+                        break;
+                    case 4:
+                        // Display the size of the queue
+                        Console.WriteLine("number of elements in the queue: " + queue.Count);
+                        break;
+                    case 5:
+                        // Display all elements in the queue
+                        Console.Write("queue: ");
+                        foreach (var item in queue)
+                        {
+                            Console.Write(item + " "); // Print each element in the queue
+                        }
+                        Console.WriteLine();
+                        break;
+                    default:
+                        Console.WriteLine("invalid option");
+                        break;
+                }
+
+            } while (opcao != 0); // Continue until the user selects "0" to exit
+        }
+    }
+}
