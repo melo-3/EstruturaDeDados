@@ -1,0 +1,233 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static PointerList.No;
+
+namespace PointerList
+{
+    class No
+    {
+        public char Valor;
+        // reference to next node
+        public No Proximo;
+        public No(char valor)
+        {
+            Valor = valor;
+            Proximo = null;
+        }
+        
+        public class Lista
+        {
+            private No inicio;
+            public Lista()
+            {
+                inicio = null;
+            }
+
+            // insert at the end
+            public void Inserir(char valor)
+            {
+                No novo = new No(valor);
+                if(inicio == null)
+                {
+                    inicio = novo;
+                }
+                else
+                {
+                    No atual = inicio;
+                    while(atual.Proximo != null)
+                    {
+                        atual = atual.Proximo;
+                    }
+                    atual.Proximo = novo;
+                }
+            }
+
+            // insert at a specific position
+            public void InserirNaPosicao(int posicao, char valor)
+            {
+                No novo = new No(valor);
+                if (posicao == 0)
+                {
+                    novo.Proximo = inicio;
+                    inicio = novo;
+                    return;
+                }
+                No atual = inicio;
+                for(int i = 0; i < posicao - 1; i++)
+                {
+                    if(atual == null)
+                    {
+                        Console.WriteLine("posicao invalida");
+                        return;
+                    }
+                    atual = atual.Proximo;
+                }
+                if (atual == null)
+                {
+                    Console.WriteLine("posicao invalida");
+                    return;
+                }
+                novo.Proximo = atual.Proximo;
+                atual.Proximo = novo;
+            }
+
+            // remove by position
+            public void Remover(int posicao)
+            {
+                if (inicio == null)
+                {
+                    Console.WriteLine("lista vazia");
+                    return;
+                }
+                if (posicao == 0)
+                {
+                    inicio = inicio.Proximo;
+                    return;
+                }
+                No atual = inicio;
+                for (int i = 0; i < posicao - 1; i++)
+                {
+                    if (atual == null)
+                    {
+                        Console.WriteLine("posicao invalida");
+                        return;
+                    }
+                    atual = atual.Proximo;
+                }
+                if (atual == null || atual.Proximo == null)
+                {
+                    Console.WriteLine("posicao invalida");
+                    return;
+                }
+                atual.Proximo = atual.Proximo.Proximo;
+            }
+
+            // display elements
+            public void Exibir()
+            {
+                if (inicio == null)
+                {
+                    Console.WriteLine("lista vazia");
+                    return;
+                }
+
+                Console.Write("Lista: ");
+                No atual = inicio;
+                while(atual != null )
+                {
+                    Console.Write(atual.Valor + " ");
+                    atual = atual.Proximo;
+                }
+                Console.WriteLine();
+            }
+
+            // return element at specific position
+            public char ElementoNaPosicao(int posicao)
+            {
+                No atual = inicio;
+                int cont = 0;
+
+                while( atual != null )
+                {
+                    if(cont == posicao)
+                    {
+                        return atual.Valor;
+                    }
+                    atual = atual.Proximo;
+                    cont++;
+                }
+                Console.WriteLine("posicao invalida");
+                return '\0';
+            }
+
+            // return size
+            public int Size()
+            {
+                int cont = 0;
+                No atual = inicio;
+                while(atual != null)
+                {
+                    cont++;
+                    atual = atual.Proximo;
+                }
+                return cont;
+            }
+
+            // check if list is empty
+            public bool Empty()
+            {
+                return inicio == null;
+            }
+
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Lista lista = new Lista();
+            int opcao;
+            char valor;
+            int posicao;
+
+            do
+            {
+                Console.WriteLine("lista dinamica encadeada");
+                Console.WriteLine("0 sair");
+                Console.WriteLine("1 inserir");
+                Console.WriteLine("2 inserir em posicao especifica");
+                Console.WriteLine("3 remover por posicao");
+                Console.WriteLine("4 tamanho");
+                Console.WriteLine("5 exibir lista");
+                Console.WriteLine("6 exibir item na posicao especifica");
+                Console.WriteLine("escolha 1 opcao");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("saindo");
+                        break;
+                    case 1:
+                        Console.WriteLine("digite o valor");
+                        valor = Console.ReadKey().KeyChar;
+                        Console.WriteLine();
+                        lista.Inserir(valor);
+                        break;
+                    case 2:
+                        Console.WriteLine("digite posicao");
+                        posicao = int.Parse(Console.ReadLine());
+                        Console.WriteLine("digite o valor");
+                        valor = Console.ReadKey().KeyChar;
+                        Console.WriteLine();
+                        lista.InserirNaPosicao(posicao, valor);
+                        break;
+                    case 3:
+                        Console.WriteLine("digite posicao para remover");
+                        posicao = int.Parse(Console.ReadLine());
+                        lista.Remover(posicao);
+                        break;
+                    case 4:
+                        Console.WriteLine("tamanho atual: " + lista.Size());
+                        break;
+                    case 5:
+                        lista.Exibir();
+                        break;
+                    case 6:
+                        Console.WriteLine("digite posicao");
+                        posicao = int.Parse(Console.ReadLine());
+                        valor = lista.ElementoNaPosicao(posicao);
+                        Console.WriteLine("elemento: " + valor);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            while (opcao != 0);
+        }
+    }
+}
