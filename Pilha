@@ -1,0 +1,112 @@
+//stack (manual)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace pilha
+{
+    class Pilha
+    {
+        private char[] elementos;
+        private int topo;
+        private int tamanho;
+
+        public Pilha(int capacidade)
+        {
+            elementos = new char[capacidade];
+            topo = -1;
+            tamanho = 0;
+        }
+
+        //method to add element to the stack
+        public void Push(char caractere)
+        {
+            elementos[++topo] = caractere;
+            tamanho++;
+        }
+
+        //method to display elements of the stack
+        public void Exibir()
+        {
+            Console.WriteLine("stack: ");
+            for (int i = topo; i >= 0; i--)
+            {
+                Console.WriteLine(" " + elementos[i]);
+            }
+            Console.WriteLine();
+        }
+
+        //method to return the size of the stack
+        public int Size()
+        {
+            return tamanho;
+        }
+
+        //method to get the element at the top of the stack
+        public char Top()
+        {
+            return elementos[topo];
+        }
+
+        //method to remove element from the top of the stack
+        public char Pop()
+        {
+            char c = elementos[topo--];
+            tamanho--;
+            return c;
+        }
+    }
+    public class Program
+    {
+        static void Main()
+        {
+            Pilha pilha = new Pilha(10);
+            char opcao;
+
+            do
+            {
+                Console.WriteLine("choose an option:");
+                Console.WriteLine("1- insert element");
+                Console.WriteLine("2- remove element");
+                Console.WriteLine("3- display elements");
+                Console.WriteLine("4- show top");
+                Console.WriteLine("5- show size");
+                Console.WriteLine("0- exit");
+                opcao = Console.ReadKey().KeyChar; //read only 1 character
+                Console.WriteLine();
+
+                switch (opcao)
+                {
+                    case '1':
+                        Console.WriteLine("Enter a character to push: ");
+                        char caractere = Console.ReadKey().KeyChar;
+                        Console.WriteLine(" ");
+                        pilha.Push(caractere);
+                        break;
+                    case '2':
+                        Console.WriteLine("element removed: " + pilha.Pop());
+                        break;
+                    case '3':
+                        pilha.Exibir();
+                        break;
+                    case '4':
+                        Console.WriteLine("top of the stack " + pilha.Top());
+                        break;
+                    case '5':
+                        Console.WriteLine("size of the stack: " + pilha.Size());
+                        break;
+                    case '0':
+                        Console.WriteLine("exiting");
+                        break;
+                    default:
+                        Console.WriteLine("invalid option");
+                        break;
+                }
+                Console.WriteLine();
+
+            } while (opcao !='0');
+        }
+    }
+}
