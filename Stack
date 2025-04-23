@@ -1,0 +1,93 @@
+//stack (using Stack)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Pilha02
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Creating a stack of characters
+            Stack<char> pilha = new Stack<char>();
+            char opcao;
+
+            do
+            {
+                Console.WriteLine("choose an option:");
+                Console.WriteLine("1- insert element");
+                Console.WriteLine("2- remove element");
+                Console.WriteLine("3- display elements");
+                Console.WriteLine("4- show top");
+                Console.WriteLine("5- show size");
+                Console.WriteLine("0- exit");
+                opcao = Console.ReadKey().KeyChar; // Read only one character input
+                Console.WriteLine();
+
+                switch (opcao)
+                {
+                    case '1':
+                        // Ask the user to enter a character to push to the stack
+                        Console.WriteLine("Enter a character to push: ");
+                        char caractere = Console.ReadKey().KeyChar;
+                        Console.WriteLine();
+                        pilha.Push(caractere); // Push the character onto the stack
+                        break;
+                    case '2':
+                        // Check if the stack has any elements before popping
+                        if (pilha.Count > 0)
+                        {
+                            Console.WriteLine("Element removed: " + pilha.Pop()); // Pop the top element from the stack
+                        }
+                        else
+                        {
+                            Console.WriteLine("Stack is empty"); // Handle empty stack case
+                        }
+                        break;
+                    case '3':
+                        // If the stack is empty, notify the user
+                        if (pilha.Count == 0)
+                        {
+                            Console.WriteLine("Stack is empty");
+                        }
+                        else
+                        {
+                            // Display all elements in the stack
+                            Console.WriteLine("Stack: ");
+                            foreach (var item in pilha)
+                            {
+                                Console.WriteLine(" " + item);
+                            }
+                        }
+                        break;
+                    case '4':
+                        // Check if the stack has any elements before showing the top
+                        if (pilha.Count > 0)
+                        {
+                            Console.WriteLine("Top of the stack: " + pilha.Peek()); // Peek the top element without removing it
+                        }
+                        else
+                        {
+                            Console.WriteLine("Stack is empty!"); // Handle empty stack case
+                        }
+                        break;
+                    case '5':
+                        // Display the size of the stack
+                        Console.WriteLine("Size of the stack: " + pilha.Count());
+                        break;
+                    case '0':
+                        Console.WriteLine("Exiting"); // Exit message
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option!"); // Handle invalid input
+                        break;
+                }
+                Console.WriteLine();
+
+            } while (opcao != '0'); // Continue until the user chooses to exit
+        }
+    }
+}
