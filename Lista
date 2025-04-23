@@ -1,0 +1,172 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StaticList
+{
+    public class Lista
+    {
+        private char[] elementos; // Array to store the elements
+        private int tamanho; // Current size of the list
+        private int capacidade; // Maximum capacity of the list
+
+        // Constructor to initialize the list with a given capacity
+        public Lista(int capacidade)
+        {
+            this.capacidade = capacidade;
+            elementos = new char[capacidade]; // Create an array with the specified capacity
+            tamanho = 0; // Start with an empty list
+        }
+
+        // Insert at the end of the list
+        public void Inserir(char valor)
+        {
+            if(tamanho == capacidade)
+            {
+                Console.WriteLine("list is full");
+                return;
+            }
+            elementos[tamanho] = valor; // Add the element at the end
+            tamanho++; // Increase the size of the list
+        }
+
+        // Insert at a specific position
+        public void InserirNaPosicao(int posicao, char valor)
+        {
+            if (tamanho == capacidade)
+            {
+                Console.WriteLine("list is full");
+                return;
+            }
+            if (posicao < 0 || posicao > tamanho)
+            {
+                Console.WriteLine("invalid position");
+                return;
+            }
+
+            // Shift elements to the right to make room for the new element
+            for (int i = tamanho; i > posicao; i--)
+            {
+                elementos[i] = elementos[i - 1];
+            }
+            elementos[posicao] = valor; // Insert the element at the specified position
+            tamanho++; // Increase the size of the list
+        }
+
+        // Remove an element by position
+        public void Remover(int posicao)
+        {
+            if (posicao < 0 || posicao >= tamanho)
+            {
+                Console.WriteLine("invalid position");
+                return;
+            }
+            // Shift elements to the left to fill the gap
+            for (int i = posicao; i < tamanho - 1; i++)
+            {
+                elementos[i] = elementos[i + 1];
+            }
+            tamanho--; // Decrease the size of the list
+        }
+
+        // Display all elements in the list
+        public void Exibir()
+        {
+            if (tamanho == 0)
+            {
+                Console.WriteLine("empty");
+                return;
+            }
+            Console.Write("list: ");
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write(elementos[i] + " "); // Print each element
+            }
+            Console.WriteLine();
+        }
+
+        // Return the size of the list
+        public int Size()
+        {
+            return tamanho;
+        }
+
+        // Check if the list is empty
+        public bool Empty()
+        {
+            return tamanho == 0;
+        }
+
+        // Return the element at a specific position
+        public char ElementoNaPosicao(int posicao)
+        {
+            if (posicao < 0 || posicao >= tamanho)
+            {
+                Console.WriteLine("invalid position");
+                return '\0'; // Return a default character if the position is invalid
+            }
+            return elementos[posicao]; // Return the element at the specified position
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Lista lista = new Lista(10); // Create a list with capacity for 10 elements
+            int opcao;
+            char valor;
+            int posicao;
+
+            do
+            {
+                // Display menu options
+                Console.WriteLine("static linear list");
+                Console.WriteLine("0 - exit");
+                Console.WriteLine("1 - insert");
+                Console.WriteLine("2 - insert at a specific position");
+                Console.WriteLine("3 - remove by position");
+                Console.WriteLine("4 - size");
+                Console.WriteLine("5 - display list");
+                Console.WriteLine("6 - display item at specific position");
+                Console.WriteLine("choose an option");
+                opcao = int.Parse(Console.ReadLine()); // Read the user's choice
+
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("exiting");
+                        break;
+                    case 1:
+                        Console.WriteLine("enter the value to insert");
+                        valor = Console.ReadKey().KeyChar; // Read the character from the user
+                        Console.WriteLine();
+                        lista.Inserir(valor); // Insert the value at the end of the list
+                        break;
+                    case 2:
+                        Console.WriteLine("enter position");
+                        posicao = int.Parse(Console.ReadLine()); // Read the position
+                        Console.WriteLine("enter the value to insert");
+                        valor = Console.ReadKey().KeyChar; // Read the character
+                        Console.WriteLine();
+                        lista.InserirNaPosicao(posicao, valor); // Insert at the specified position
+                        break;
+                    case 3:
+                        Console.WriteLine("enter position to remove");
+                        posicao = int.Parse(Console.ReadLine()); // Read the position to remove
+                        lista.Remover(posicao); // Remove the element at the specified position
+                        break;
+                    case 4:
+                        Console.WriteLine("current size: " + lista.Size()); // Display the size of the list
+                        break;
+                    case 5:
+                        lista.Exibir(); // Display all elements in the list
+                        break;
+                    case 6:
+                        Console.WriteLine("enter position");
+                        posicao = int.Parse(Console.ReadLine()); // Read the position to get an element
+                        valor = lista.ElementoNaPosicao(posicao); // Get the element at the specified position
+                        Console.WriteLine("element: " + valor); // Display the element
