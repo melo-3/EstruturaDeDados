@@ -1,0 +1,141 @@
+//queue (manual)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fila
+{
+    class Fila
+    {
+        private char[] elementos;
+        private int inicio;
+        private int fim;
+        private int tamanho;
+        private int capacidade;
+
+        //initialize the queue with the size specified by the user
+        public Fila(int capacidade)
+        {
+            this.capacidade = capacidade;
+            elementos = new char[capacidade];
+            inicio = 0;
+            fim = -1;
+            tamanho = 0;
+        }
+
+        //enqueue (add element to the queue)
+        public void Enqueue(char caractere)
+        {
+            if (tamanho == capacidade)
+            {
+                Console.WriteLine("error: queue is full");
+                return;
+            }
+            fim = (fim + 1) % capacidade; // Circular queue behavior
+            elementos[fim] = caractere;
+            tamanho++;
+        }
+
+        //dequeue (remove element from the queue)
+        public char Dequeue()
+        {
+            if (Empty())
+            {
+                Console.WriteLine("queue is empty");
+            }
+            char valor = elementos[inicio];
+            inicio = (inicio + 1) % capacidade; // Circular queue behavior
+            tamanho--;
+            return valor;
+        }
+
+        //check if the queue is empty
+        public bool Empty()
+        {
+            return tamanho == 0;
+        }
+
+        //display elements in the queue
+        public void Exibir()
+        {
+            if (Empty())
+            {
+                Console.WriteLine("queue is empty");
+                return;
+            }
+            Console.Write("Queue: ");
+            for (int i = 0; i < tamanho; i++)
+            {
+                int index = (inicio + i) % capacidade; // Handle circular queue index
+                Console.Write(elementos[index] + " ");
+            }
+            Console.WriteLine();
+        }
+
+        //return the size of the queue
+        public int Size()
+        {
+            return tamanho;
+        }
+
+        //return the first element of the queue
+        public char Head()
+        {
+            return elementos[inicio];
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Fila fila = new Fila(10);
+            int opcao;
+            char valor;
+
+            do
+            {
+                Console.WriteLine("choose an option: ");
+                Console.WriteLine("0 - exit");
+                Console.WriteLine("1 - enqueue");
+                Console.WriteLine("2 - head (first element)");
+                Console.WriteLine("3 - dequeue");
+                Console.WriteLine("4 - queue size");
+                Console.WriteLine("5 - display queue");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("exiting");
+                        break;
+                    case 1:
+                        Console.WriteLine("enter value to enqueue: ");
+                        valor = Console.ReadKey().KeyChar;
+                        fila.Enqueue(valor); // Add character to the queue
+                        break;
+                    case 2:
+                        valor = fila.Head(); // Get the first element of the queue
+                        Console.WriteLine("front of the queue: " + valor);
+                        break;
+                    case 3:
+                        valor = fila.Dequeue(); // Remove the first element from the queue
+                        Console.WriteLine("dequeued element: " + valor);
+                        break;
+                    case 4:
+                        Console.WriteLine("number of elements in the queue: " + fila.Size());
+                        break;
+                    case 5:
+                        fila.Exibir(); // Display all elements in the queue
+                        break;
+                    default:
+                        Console.WriteLine("invalid option");
+                        break;
+                }
+
+            } while (opcao != 0); // Continue until user selects "0" to exit
+        }
+    }
+}
